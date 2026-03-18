@@ -1,0 +1,65 @@
+[
+  {
+    "id": "1",
+    "title": "RSL Repository Research Data",
+    "type": "Sheet",
+    "category": "Google Sheets",
+    "url": "https://docs.google.com/spreadsheets/d/1oxVT49TqlvZ6jjyLXPRYCotpF9dHcT6mEpRKW-FgfgQ/edit?usp=drivesdk",
+    "description": "Central repository for RSL research and data analysis.",
+    "isFavorite": true
+  },
+  {
+    "id": "8",
+    "title": "City-wise IT Company Research Data",
+    "type": "Sheet",
+    "category": "Google Sheets",
+    "url": "https://docs.google.com/spreadsheets/d/1kTDsph_zOngsK6OiY-eCDJ_vCy-JSlEecXyV0nljSEU/edit?usp=drivesdk",
+    "description": "Comprehensive city-wise research data on IT companies.",
+    "isFavorite": false
+  },
+  {
+    "id": "10",
+    "title": "Employee Task Tracker Sheet ✅",
+    "type": "Sheet",
+    "category": "Google Sheets",
+    "url": "https://docs.google.com/spreadsheets/d/1FiqhM-jXnZaRjnWJnAKRCA7izFVn2iPzGOC0lWCgvAU/edit?usp=drivesdk",
+    "description": "Daily task tracking and management sheet for RSL employees.",
+    "isFavorite": true
+  },
+  {
+    "id": "3",
+    "title": "HR Support (Snehal Mam)",
+    "type": "Email",
+    "category": "Hr mails",
+    "url": "mailto:sneha.hr@rslsolution.com",
+    "description": "Direct contact for HR queries and payroll.",
+    "isFavorite": true
+  },
+  {
+    "id": "4",
+    "title": "Operations Desk (Aditya Sir)",
+    "type": "Email",
+    "category": "Hr mails",
+    "url": "mailto:aditya24.rsl@gmail.com",
+    "description": "For operational support and resource allocation.",
+    "isFavorite": false
+  },
+  {
+    "id": "11",
+    "title": "Repository Analyzer Tool ✅",
+    "type": "Tool",
+    "category": "Other Important Links",
+    "url": "https://analyze-repository-tool.onrender.com/",
+    "description": "Powerful tool for analyzing and evaluating code repositories.",
+    "isFavorite": true
+  },
+  {
+    "id": "9",
+    "title": "RSL Solution Official Website",
+    "type": "Link",
+    "category": "Company Resources",
+    "url": "https://rslsolution.com/",
+    "description": "The official website for RSL Solution Private Limited.",
+    "isFavorite": true
+  }
+]
