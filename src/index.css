@@ -1,56 +1,121 @@
+:root {
+  --primary: #6366f1;
+  --accent: #8b5cf6;
+  --bg: #020617;
+  --text: #ffffff;
+  --card-bg: rgba(15, 23, 42, 0.4);
+  --border: rgba(255, 255, 255, 0.1);
+  --glass-blur: 24px;
+  --star-fill: #fbbf24;
+  --star-text: #fbbf24;
+  --star-shadow: 0 0 12px rgba(251, 191, 36, 0.4);
+  color-scheme: dark;
+}
+
+.light {
+  --bg: #f1f5f9;
+  --text: #0f172a;
+  --card-bg: rgba(255, 255, 255, 0.7);
+  --border: rgba(0, 0, 0, 0.08);
+  --glass-blur: 16px;
+  --star-fill: #fbbf24;
+  --star-text: #d97706;
+  --star-shadow: none;
+  color-scheme: light;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  color-scheme: dark light;
+@layer base {
+  body {
+    @apply antialiased;
+    margin: 0;
+    min-height: 100vh;
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+    transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s ease;
+  }
 }
 
-body {
-  margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
-  background-color: #0f172a;
-  color: white;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+@layer components {
+  .glass-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--border);
+    transition: transform 0.3s ease, background 0.5s ease, border-color 0.5s ease, box-shadow 0.3s ease;
+  }
+
+  /* Starfield Background Animation */
+  .starfield {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    background-image: 
+      radial-gradient(1.5px 1.5px at 20px 30px, #fff, rgba(0,0,0,0)),
+      radial-gradient(2px 2px at 100px 150px, #fff, rgba(0,0,0,0)),
+      radial-gradient(1.5px 1.5px at 200px 250px, #fff, rgba(0,0,0,0)),
+      radial-gradient(2.5px 2.5px at 400px 300px, #fff, rgba(0,0,0,0)),
+      radial-gradient(1.5px 1.5px at 500px 50px, #fff, rgba(0,0,0,0)),
+      radial-gradient(2px 2px at 700px 350px, #fff, rgba(0,0,0,0));
+    background-size: 800px 800px;
+    opacity: 0.15;
+    animation: star-drift 80s linear infinite;
+    pointer-events: none;
+    z-index: -30;
+  }
+
+  .light .starfield {
+    background-image: 
+      radial-gradient(1.5px 1.5px at 20px 30px, #6366f1, rgba(255,255,255,0)),
+      radial-gradient(2px 2px at 100px 150px, #8b5cf6, rgba(255,255,255,0));
+    opacity: 0.1;
+  }
 }
 
-/* Glassmorphism Classes */
-.glass {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+@keyframes star-drift {
+  from { transform: translate(0, 0); }
+  to { transform: translate(-400px, -400px); }
 }
 
-.glass-card {
-  background: rgba(30, 41, 59, 0.5);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
-.glass-card:hover {
-  border-color: rgba(99, 102, 241, 0.4);
-  background: rgba(30, 41, 59, 0.7);
-  box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.5; filter: blur(10px); }
+  50% { opacity: 1; filter: blur(20px); }
 }
 
-/* Scrollbar */
+.animate-float {
+  animation: float 5s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0f172a;
+  background: var(--bg);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: var(--border);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: var(--primary);
 }

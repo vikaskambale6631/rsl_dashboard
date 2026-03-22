@@ -1,63 +1,123 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { ExternalLink, Copy, Star, Mail, Link as LinkIcon, FileSpreadsheet, Wrench } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 
 const TypeIcon = ({ type }) => {
   switch (type) {
-    case 'Sheet': return <FileSpreadsheet size={18} className="text-emerald-500" />;
-    case 'Email': return <Mail size={18} className="text-sky-500" />;
-    case 'Tool': return <Wrench size={18} className="text-amber-500" />;
-    default: return <LinkIcon size={18} className="text-slate-400" />;
+    case 'Sheet': return <FileSpreadsheet size={20} className="text-emerald-500" />;
+    case 'Email': return <Mail size={20} className="text-sky-500" />;
+    case 'Tool': return <Wrench size={20} className="text-amber-500" />;
+    default: return <LinkIcon size={20} className="text-slate-500" />;
   }
 };
 
-const LinkCard = ({ item, onCopy }) => {
+const LinkCard = ({ item, onCopy, theme }) => {
   const isEmail = item.type === 'Email';
+  const isDownload = item.url.endsWith('.exe');
+  const buttonText = isEmail ? 'Send Email' : (isDownload ? 'Download Tool' : 'Open Link');
+
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const mouseXSpring = useSpring(mouseX);
+  const mouseYSpring = useSpring(mouseY);
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    
+    // For 3D Tilt
+    const xPct = (e.clientX - rect.left) / width - 0.5;
+    const yPct = (e.clientY - rect.top) / height - 0.5;
+    mouseX.set(xPct);
+    mouseY.set(yPct);
+
+    // For Mouse-Following Glow
+    e.currentTarget.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`);
+    e.currentTarget.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`);
+  };
+
+  const handleMouseLeave = () => {
+    mouseX.set(0);
+    mouseY.set(0);
+  };
 
   return (
     <motion.div
-      layout
-      whileHover={{ y: -4, scale: 1.01 }}
-      className="glass-card rounded-[1.5rem] p-6 flex flex-col gap-4 border border-white/5 hover:border-primary/40 transition-all duration-300 group relative overflow-hidden"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        rotateX,
+        rotateY,
+        transformStyle: "preserve-3d",
+      }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileHover={{ 
+        scale: 1.05,
+        translateZ: 20,
+        boxShadow: "0 20px 40px rgba(0,0,0,0.3)"
+      }}
+      className="glass-card group relative p-8 rounded-3xl flex flex-col gap-6 transition-all duration-300 shadow-xl overflow-hidden hover:border-primary/40"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+      {/* Mouse-Following Border Glow */}
+      <div 
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+        style={{
+          background: `radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgba(99, 102, 241, 0.15), transparent 80%)`,
+        }}
+      />
 
-      <div className="flex justify-between items-start">
-        <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-white/5 border border-white/5 group-hover:border-white/10 transition-colors">
+      {/* Official Layout Elements */}
+      <div 
+        style={{ transform: "translateZ(50px)" }}
+        className="flex justify-between items-start relative z-10"
+      >
+        <div className="flex items-center gap-5">
+          <div className="p-3.5 rounded-2xl bg-white/5 border border-[var(--border)] shadow-sm group-hover:border-primary/50 group-hover:bg-primary/5 transition-all duration-500">
             <TypeIcon type={item.type} />
           </div>
           <div>
-            <h3 className="font-bold text-lg tracking-tight group-hover:text-primary transition-colors">{item.title}</h3>
-            <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">{item.type}</span>
+            <h3 className="font-extrabold text-xl tracking-tight text-[var(--text)] transition-colors duration-300 group-hover:text-primary">{item.title}</h3>
+            <div className="flex items-center gap-2.5 mt-1.5">
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">{item.type}</span>
+              <div className="w-1 h-1 rounded-full bg-slate-700"></div>
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/70">{item.category}</span>
+            </div>
           </div>
         </div>
         {item.isFavorite && (
-          <Star size={16} fill="#fbbf24" className="text-[#fbbf24]" />
+          <Star size={18} fill="var(--star-fill)" className="text-[var(--star-text)] opacity-80 filter drop-shadow-[0_0_8px_var(--star-fill)]" />
         )}
       </div>
 
-      {item.description && (
-        <p className="text-sm text-slate-400 line-clamp-2 font-medium leading-relaxed">{item.description}</p>
-      )}
-
-      <div className="mt-4 flex items-center gap-2 pt-4 border-t border-white/5">
+      <div style={{ transform: "translateZ(60px)" }} className="mt-4 flex items-center gap-3 relative z-10">
         <a 
           href={item.url}
           target={isEmail ? "_self" : "_blank"}
           rel="noopener noreferrer"
-          className="flex-1 flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white py-2.5 rounded-xl text-sm font-bold transition-all shadow-[0_4px_12px_rgba(99,102,241,0.2)]"
+          download={isDownload}
+          className="flex-1 flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white py-3 rounded-xl text-sm font-bold transition-all shadow-lg active:scale-[0.98] hover:shadow-primary/20"
         >
-          {isEmail ? <Mail size={14} /> : <ExternalLink size={14} />}
-          <span>{isEmail ? 'Send Email' : 'Open Link'}</span>
+          {isEmail ? <Mail size={16} /> : (isDownload ? <Wrench size={16} /> : <ExternalLink size={16} />)}
+          <span>{buttonText}</span>
         </a>
         <button 
           onClick={() => onCopy(item.url)}
-          className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white border border-white/5 hover:border-white/10 transition-all"
+          className="p-3 rounded-xl bg-white/5 border border-[var(--border)] text-slate-500 hover:text-[var(--text)] hover:bg-white/10 transition-all hover:border-primary/30"
           title="Copy Link"
         >
-          <Copy size={18} />
+          <Copy size={20} />
         </button>
+      </div>
+
+      {/* Glossy Reflection Overlay */}
+      <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-20 transition-opacity duration-700 rounded-3xl overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
       </div>
     </motion.div>
   );
