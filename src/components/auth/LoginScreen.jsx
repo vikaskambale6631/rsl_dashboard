@@ -83,8 +83,8 @@ const LoginScreen = ({ onLogin, theme, toggleTheme }) => {
         <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
 
         <div style={{ transform: "translateZ(60px)" }} className="flex flex-col items-center text-center mb-12">
-          <div className="w-24 h-24 rounded-3xl bg-white flex items-center justify-center mb-8 shadow-xl border border-[var(--border)] group animate-float">
-             <img src="/rsllogo.png" alt="RSL Logo" className="w-16 h-16 object-contain p-1" />
+          <div className="w-24 h-24 rounded-[2rem] bg-primary/5 flex items-center justify-center mb-8 shadow-2xl border border-primary/20 group animate-float backdrop-blur-md">
+             <img src="/rsllogo.png" alt="RSL Logo" className="w-16 h-16 object-contain drop-shadow-[0_0_15px_rgba(var(--primary-rgb),0.3)]" />
           </div>
           <h1 className="text-4xl font-black tracking-tighter mb-3 bg-gradient-to-br from-[var(--text)] to-[var(--text)]/60 bg-clip-text text-transparent">
             System Access

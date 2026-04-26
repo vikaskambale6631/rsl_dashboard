@@ -7,9 +7,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#6366f1",
-        accent: "#22c55e",
-        background: "#0f172a",
+        primary: "var(--primary)",
+        accent: "var(--accent)",
+        background: "var(--bg)",
       },
       backdropBlur: {
         xs: '2px',

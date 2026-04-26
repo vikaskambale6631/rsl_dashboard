@@ -62,20 +62,20 @@ const LinkCard = ({ item, onCopy, theme }) => {
         translateZ: 20,
         boxShadow: "0 20px 40px rgba(0,0,0,0.3)"
       }}
-      className="glass-card group relative p-8 rounded-3xl flex flex-col gap-6 transition-all duration-300 shadow-xl overflow-hidden hover:border-primary/40"
+      className="glass-card group relative p-8 rounded-3xl flex flex-col gap-6 transition-all duration-300 shadow-xl overflow-hidden hover:border-primary/40 h-full"
     >
       {/* Mouse-Following Border Glow */}
       <div 
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
         style={{
-          background: `radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgba(99, 102, 241, 0.15), transparent 80%)`,
+          background: `radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgba(var(--primary-rgb), 0.15), transparent 80%)`,
         }}
       />
 
       {/* Official Layout Elements */}
       <div 
         style={{ transform: "translateZ(50px)" }}
-        className="flex justify-between items-start relative z-10"
+        className="flex justify-between items-start relative z-10 flex-1"
       >
         <div className="flex items-center gap-5">
           <div className="p-3.5 rounded-2xl bg-white/5 border border-[var(--border)] shadow-sm group-hover:border-primary/50 group-hover:bg-primary/5 transition-all duration-500">
@@ -95,7 +95,7 @@ const LinkCard = ({ item, onCopy, theme }) => {
         )}
       </div>
 
-      <div style={{ transform: "translateZ(60px)" }} className="mt-4 flex items-center gap-3 relative z-10">
+      <div style={{ transform: "translateZ(60px)" }} className="mt-auto flex items-center gap-3 relative z-10">
         <a 
           href={item.url}
           target={isEmail ? "_self" : "_blank"}

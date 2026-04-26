@@ -86,16 +86,16 @@ function App() {
             animate={{ opacity: 1, x: 0 }}
             className="flex items-center gap-5"
           >
-            <div className="w-11 h-11 rounded-xl bg-white flex items-center justify-center overflow-hidden shadow-xl">
+            <div className="w-16 h-16 rounded-2xl bg-primary/5 flex items-center justify-center overflow-hidden shadow-xl border border-primary/10 backdrop-blur-md">
                <img 
                  src="/rsllogo.png" 
                  alt="RSL Logo" 
-                 className="w-full h-full object-contain p-1.5"
+                 className="w-full h-full object-contain p-2"
                />
             </div>
             <div className="hidden lg:block">
-              <h1 className="text-sm font-black uppercase tracking-[0.25em] text-[var(--text)]">RSL Solution</h1>
-              <p className="text-[9px] text-slate-500 font-bold uppercase tracking-[0.15em]">Internal Link Gateway</p>
+              <h1 className="text-xl font-black uppercase tracking-[0.25em] text-[var(--text)] leading-none mb-1">RSL Solution</h1>
+              <p className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.3em]">Internal Link Gateway</p>
             </div>
           </motion.div>
 
@@ -179,6 +179,7 @@ function App() {
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: idx * 0.05 }}
+                        className="h-full"
                       >
                         <LinkCard item={item} onCopy={handleCopy} theme={theme} />
                       </motion.div>
